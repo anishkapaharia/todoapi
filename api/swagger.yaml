@@ -1,0 +1,123 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "To Do App"
+paths:
+  /todos:
+    get:
+      description: "Gets all the `todo` object array of `user` from the database"
+      operationId: "todosGET"
+      parameters:
+      - name: "uid"
+        in: "query"
+        description: "User's id of whoes todos are to be extracted"
+        required: true
+        type: "number"
+        format: "long"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/TaskArray"
+        default:
+          description: "ERROR"
+      x-swagger-router-controller: "Default"
+    post:
+      summary: "Post the task submitted by the user"
+      description: "It will add the `task` on the data base"
+      operationId: "todosPOST"
+      parameters:
+      - name: "uid"
+        in: "query"
+        description: "User's id of whoes todos are to be added"
+        required: true
+        type: "number"
+        format: "long"
+      - in: "body"
+        name: "task"
+        description: "Task object"
+        required: true
+        schema:
+          $ref: "#/definitions/TaskObject"
+      responses:
+        200:
+          description: "OK"
+        default:
+          description: "ERROR"
+      x-swagger-router-controller: "Default"
+    put:
+      summary: "Updates only `task` title or/and description of the given task id"
+      description: "Updates `task` title or/and description to the data base"
+      operationId: "todosPUT"
+      parameters:
+      - name: "uid"
+        in: "query"
+        description: "User's id of whoes todo is to be updated"
+        required: true
+        type: "number"
+        format: "long"
+      - name: "id"
+        in: "query"
+        description: "Task's id of whoes todos are to be extracted"
+        required: true
+        type: "number"
+        format: "int"
+      - name: "title"
+        in: "query"
+        description: "Title that is to be edited"
+        required: false
+        type: "string"
+      - name: "description"
+        in: "query"
+        description: "Description that is to be edited"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+        default:
+          description: "ERROR"
+      x-swagger-router-controller: "Default"
+    delete:
+      summary: "This will delete the task from the database"
+      description: "This will delete the task from the database"
+      operationId: "todosDELETE"
+      parameters:
+      - name: "uid"
+        in: "query"
+        description: "User's id of whoes todo is to be updated"
+        required: true
+        type: "number"
+        format: "long"
+      - name: "id"
+        in: "query"
+        description: "Task's id of whoes todos are to be extracted"
+        required: true
+        type: "number"
+        format: "int"
+      responses:
+        200:
+          description: "OK"
+        default:
+          description: "ERROR"
+      x-swagger-router-controller: "Default"
+definitions:
+  TaskObject:
+    type: "object"
+    required:
+    - "id"
+    - "title"
+    properties:
+      id:
+        type: "integer"
+      title:
+        type: "string"
+      description:
+        type: "string"
+    title: "Task"
+  TaskArray:
+    title: "TaskList"
+    type: "array"
+    items:
+      $ref: "#/definitions/TaskObject"
